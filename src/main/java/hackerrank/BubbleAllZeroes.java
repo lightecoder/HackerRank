@@ -7,13 +7,9 @@ public class BubbleAllZeroes {
     Expected [1,3,6,-1,0,0,0,0]
      */
 
-    public static void main(String[] args) {
-
+    public int[] bubbleAllZeroesRight(int[] source) {
+        return null;
     }
-
-}
-
-class TDD {
 
 }
 
