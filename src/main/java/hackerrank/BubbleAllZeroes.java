@@ -8,7 +8,28 @@ public class BubbleAllZeroes {
      */
 
     public int[] bubbleAllZeroesRight(int[] source) {
-        return null;
+        int zeroPointer = 0;
+        int pointer = 1;
+        while (pointer < source.length) {
+            if (source[zeroPointer] == 0) {
+                if (source[pointer] != 0) {
+                    swap(source, zeroPointer, pointer);
+                    zeroPointer++;
+                }
+            }
+            else {
+                zeroPointer++;
+            }
+            pointer++;
+        }
+
+        return source;
+    }
+
+    private void swap(int[] source, int zeroPointer, int pointer) {
+        int temp = source[zeroPointer];
+        source[zeroPointer] = source[pointer];
+        source[pointer] = temp;
     }
 
 }
