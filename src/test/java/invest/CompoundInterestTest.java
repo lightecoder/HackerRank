@@ -73,7 +73,7 @@ class CompoundInterestTest {
     }
 
     @Test
-    void test1YearsWithMarginNoStartSumWithTopUp() {
+    void test1YearWithMarginNoStartSumWithTopUp() {
         sut.setYearsPeriod(1)
                 .setAnnualMargin(12)
                 .setMonthlyTopUp(100);
