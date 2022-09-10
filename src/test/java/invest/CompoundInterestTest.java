@@ -64,4 +64,19 @@ class CompoundInterestTest {
                 .setMonthlyTopUp(100);
         assertEquals(3400, (int) sut.getOverAllSumInYears());
     }
+
+    @Test
+    void test1YearsNoMarginNoStartSumWithTopUp() {
+        sut.setYearsPeriod(1)
+                .setMonthlyTopUp(100);
+        assertEquals(1200, (int) sut.getOverAllSumInYears());
+    }
+
+    @Test
+    void test1YearsWithMarginNoStartSumWithTopUp() {
+        sut.setYearsPeriod(1)
+                .setAnnualMargin(12)
+                .setMonthlyTopUp(100);
+        assertEquals(1268, (int) sut.getOverAllSumInYears());
+    }
 }

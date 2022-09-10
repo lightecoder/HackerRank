@@ -9,9 +9,9 @@ public class CompoundInterestCalculator {
 
     public static void main(String[] args) {
         CompoundInterestCalculator calculator = new CompoundInterestCalculator();
-        calculator.setStartSum(10000)
+        calculator.setStartSum(0)
                 .setAnnualMargin(10)
-                .setMonthlyTopUp(0)
+                .setMonthlyTopUp(10000)
                 .setYearsPeriod(10);
         calculator.getOverAllSumInYears();
     }
