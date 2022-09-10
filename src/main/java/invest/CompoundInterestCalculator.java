@@ -13,10 +13,10 @@ public class CompoundInterestCalculator {
                 .setAnnualMargin(10)
                 .setMonthlyTopUp(10000)
                 .setYearsPeriod(10);
-        calculator.getOverAllSumInYears();
+        calculator.getOverAllSumInvestments();
     }
 
-    public double getOverAllSumInYears() {
+    public double getOverAllSumInvestments() {
         if (annualMargin == 0 && monthlyTopUp > 0) {
             int monthInYears = 12;
             startSum += monthInYears * monthlyTopUp * yearsPeriod;
