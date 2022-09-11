@@ -16,7 +16,7 @@ class CompoundInterestTest {
     }
 
     @Test
-    void test1YearWithMargin10NoTopUp() {
+    void test1YearWithMarginNoTopUp() {
         sut.setStartSum(1000)
                 .setAnnualMargin(10)
                 .setYearsPeriod(1);
@@ -24,11 +24,29 @@ class CompoundInterestTest {
     }
 
     @Test
-    void test2YearsWithMargin12NoTopUp() {
+    void test1YearWithMarginNoTopUp_WithExpenseRatio() {
+        sut.setStartSum(1000)
+                .setAnnualMargin(10)
+                .setYearsPeriod(1)
+                .setExpenseRatio(0.2);
+        assertEquals(1097.8, sut.getOverAllSumInvestments());
+    }
+
+    @Test
+    void test2YearsWithMarginNoTopUp() {
         sut.setStartSum(1000)
                 .setAnnualMargin(12)
                 .setYearsPeriod(2);
         assertEquals(1254.4, sut.getOverAllSumInvestments());
+    }
+
+    @Test
+    void test2YearsWithMarginNoTopUp_WithExpenseRatio() {
+        sut.setStartSum(1000)
+                .setAnnualMargin(12)
+                .setYearsPeriod(2)
+                .setExpenseRatio(0.2);
+        assertEquals(1249, (int) sut.getOverAllSumInvestments());
     }
 
     @Test
@@ -55,6 +73,16 @@ class CompoundInterestTest {
                 .setYearsPeriod(2)
                 .setMonthlyTopUp(100);
         assertEquals(3967, (int) sut.getOverAllSumInvestments());
+    }
+
+    @Test
+    void test2YearsWithMarginWithTopUp_WithExpenseRatio() {
+        sut.setStartSum(1000)
+                .setAnnualMargin(12)
+                .setYearsPeriod(2)
+                .setExpenseRatio(0.2)
+                .setMonthlyTopUp(100);
+        assertEquals(3953, (int) sut.getOverAllSumInvestments());
     }
 
     @Test

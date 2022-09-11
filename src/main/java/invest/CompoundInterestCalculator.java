@@ -6,28 +6,35 @@ public class CompoundInterestCalculator {
     private double annualMargin;        //%
     private double monthlyTopUp;        //USD
     private int yearsPeriod;            //years
+    private double expenseRatio;        //%
 
     public static void main(String[] args) {
         CompoundInterestCalculator calculator = new CompoundInterestCalculator();
-        calculator.setStartSum(5)
-                .setAnnualMargin(9)
-                .setMonthlyTopUp(0)
-                .setYearsPeriod(30);
+        calculator.setStartSum(50000)
+                .setAnnualMargin(20)
+                .setMonthlyTopUp(10000)
+                .setYearsPeriod(10)
+                .setExpenseRatio(0.69);
         calculator.getOverAllSumInvestments();
     }
 
     public double getOverAllSumInvestments() {
+        double expenseRatioTotal = 0;
+        int monthsInYear = 12;
         if (annualMargin == 0 && monthlyTopUp > 0) {
-            int monthInYears = 12;
-            startSum += monthInYears * monthlyTopUp * yearsPeriod;
+            startSum += monthsInYear * monthlyTopUp * yearsPeriod;
             System.out.println("Total sum: " + startSum);
+            System.out.println("Total Top Up: " + yearsPeriod * monthsInYear * monthlyTopUp);
+            System.out.println("NOTE: no Expense Ratio included in this calculation!");
             return startSum;
         }
         else if (annualMargin == 0 && monthlyTopUp == 0) {
             System.out.println("Total sum: " + startSum);
+            System.out.println("NOTE: no Expense Ratio included in this calculation!");
             return startSum;
         }
 
+        double expenseRatioAnnuallyFee = 0;
         for (int i = 0; i < yearsPeriod; i++) {
             if (monthlyTopUp > 0) {
                 int monthInYears = 12;
@@ -38,8 +45,15 @@ public class CompoundInterestCalculator {
             else {
                 startSum += startSum * annualMargin / 100;
             }
+            expenseRatioAnnuallyFee = (startSum / 100) * expenseRatio;
+            startSum -= expenseRatioAnnuallyFee;
+            expenseRatioTotal += expenseRatioAnnuallyFee;
         }
-        System.out.println("Total sum: " + startSum);
+        System.out.println("Total sum : " + startSum);
+        System.out.println("Total Top Up : " + yearsPeriod * monthsInYear * monthlyTopUp);
+        System.out.println("Compound margin income : " + (startSum - (yearsPeriod * monthsInYear * monthlyTopUp)));
+        System.out.println("Expense Ratio Total: " + expenseRatioTotal);
+        System.out.println("Last year Expense Ratio: " + expenseRatioAnnuallyFee);
         return startSum;
     }
 
@@ -76,6 +90,15 @@ public class CompoundInterestCalculator {
 
     public CompoundInterestCalculator setYearsPeriod(int yearsPeriod) {
         this.yearsPeriod = yearsPeriod;
+        return this;
+    }
+
+    public double getExpenseRatio() {
+        return expenseRatio;
+    }
+
+    public CompoundInterestCalculator setExpenseRatio(double expenseRatio) {
+        this.expenseRatio = expenseRatio;
         return this;
     }
 }
