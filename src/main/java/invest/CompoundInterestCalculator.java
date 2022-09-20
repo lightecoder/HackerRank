@@ -36,7 +36,7 @@ public class CompoundInterestCalculator {
                 .setRetirementStartAfterYears(14)
                 .setDividendYield(1.5)
                 .setReinvestDividendsEnabledWhenRetire(false)
-                .setRetirementCacheFlowFromSelling(2.5);
+                .setRetirementCacheFlowFromSelling(4);
         calculator2.getRetirementCacheFlow();
     }
 
@@ -57,8 +57,9 @@ public class CompoundInterestCalculator {
                     int monthInYears = 12;
                     for (int j = 0; j < monthInYears; j++) {
                         startSum += (startSum * (annualMargin / monthInYears / 100)) + monthlyTopUp;
-                        dividendsYearly = (startSum / 100 * dividendYield);
-                        startSum += dividendsYearly / 12;
+                        dividendsYearly = startSum / 100 * dividendYield;
+                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
+                        startSum += dividendsYearly / monthInYears;
                     }
                     System.out.println(
                             "Total sum : " + startSum + ", Dividend sum reinvested : " + dividendsYearly + " in " + year
@@ -68,6 +69,7 @@ public class CompoundInterestCalculator {
                 else {
                     startSum += startSum * annualMargin / 100;
                     dividendsYearly = startSum / 100 * dividendYield;
+                    dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
                     startSum += dividendsYearly;
                     System.out.println(
                             "Total sum : " + startSum + ", Dividend sum reinvested : " + dividendsYearly + " in " + year
@@ -87,7 +89,9 @@ public class CompoundInterestCalculator {
                         startSum += startSum * annualMargin / 100;
                         cacheFlowYearly = startSum / 100 * retirementCacheFlowFromSelling;
                         startSum -= cacheFlowYearly;
+                        cacheFlowYearly -= cacheFlowYearly / 100 * STOCK_SELL_FEE;
                         dividendsYearly = startSum / 100 * dividendYield;
+                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
                         startSum += dividendsYearly;
                         System.out.println(
                                 "Total sum : " + startSum + ", CacheFlow sum : " + cacheFlowYearly + " in " + year
@@ -98,6 +102,7 @@ public class CompoundInterestCalculator {
                     else {
                         startSum += startSum * annualMargin / 100;
                         dividendsYearly = startSum / 100 * dividendYield;
+                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
                         startSum += dividendsYearly;
                         System.out.println(
                                 "Total sum : " + startSum + ", Dividend sum reinvested : " + dividendsYearly + " in "
@@ -111,7 +116,9 @@ public class CompoundInterestCalculator {
                         startSum += startSum * annualMargin / 100;
                         cacheFlowYearly = startSum / 100 * retirementCacheFlowFromSelling;
                         startSum -= cacheFlowYearly;
+                        cacheFlowYearly -= cacheFlowYearly / 100 * STOCK_SELL_FEE;
                         dividendsYearly = startSum / 100 * dividendYield;
+                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
                         System.out.println(
                                 "Total sum : " + startSum + ", CacheFlow sum : " + cacheFlowYearly + " in " + year
                                 + " year" + ", Dividend sum received : " + dividendsYearly + " in " + year + " year");
@@ -120,6 +127,7 @@ public class CompoundInterestCalculator {
                     else {
                         startSum += startSum * annualMargin / 100;
                         dividendsYearly = startSum / 100 * dividendYield;
+                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
                         System.out.println(
                                 "Total sum : " + startSum + ", Dividend sum received : " + dividendsYearly + " in "
                                 + year + " year");
