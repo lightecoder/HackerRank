@@ -7,15 +7,14 @@ public class CompoundInterestCalculator {
     private static final int CURRENT_YEAR = 2022;
     private static final double INFLATION = 1; //
 
-    private double startSum;                                         //USD
-    private double annualMargin;                                     //%
-    private double monthlyTopUp;                                     //USD
-    private int yearsPeriod;                                         //years
-    private double expenseRatio;                                     //%
-    private int retirementStartAfterYears;                           //years after we stop to top up the account
-    private double dividendYield;                                    //% annually
-    private boolean reinvestDividendsEnabledWhenRetire;              // before retirement = true
-    private double retirementCacheFlowFromSelling;                   //% cache flow yearly from selling stock
+    private double startSum;                                         // USD
+    private double annualMargin;                                     // %
+    private double monthlyTopUp;                                     // USD
+    private int yearsPeriod;                                         // years
+    private double expenseRatio;                                     // %
+    private int retirementStartAfterYears;                           // years after we stop to top up the account
+    private double dividendYield;                                    // % annually
+    private double monthlyCacheFlowThreshold;                        // USD, max cache flow monthly
 
     public static void main(String[] args) {
         //        CompoundInterestCalculator calculator = new CompoundInterestCalculator();
@@ -28,15 +27,14 @@ public class CompoundInterestCalculator {
         //        System.out.println("\n\n\n#########################################################################\n\n\n");
 
         CompoundInterestCalculator calculator2 = new CompoundInterestCalculator();
-        calculator2.setStartSum(50000)
-                .setAnnualMargin(10)
-                .setMonthlyTopUp(10000)
-                .setExpenseRatio(0.1)
-                .setYearsPeriod(50)
-                .setRetirementStartAfterYears(14)
-                .setDividendYield(1.5)
-                .setReinvestDividendsEnabledWhenRetire(false)
-                .setRetirementCacheFlowFromSelling(4);
+        calculator2.setStartSum(50000) // USD
+                .setAnnualMargin(17.08) // %
+                .setMonthlyTopUp(10000) // USD
+                .setExpenseRatio(0.1) // %
+                .setYearsPeriod(50) // years
+                .setRetirementStartAfterYears(14) // years
+                .setDividendYield(0.83)// must != 0 , %
+                .setMonthlyCacheFlowThreshold(20000); // must != 0
         calculator2.getRetirementCacheFlow();
     }
 
@@ -54,12 +52,11 @@ public class CompoundInterestCalculator {
             if (year < (CURRENT_YEAR + retirementStartAfterYears)) {
                 // top up
                 if (monthlyTopUp > 0) {
-                    int monthInYears = 12;
-                    for (int j = 0; j < monthInYears; j++) {
-                        startSum += (startSum * (annualMargin / monthInYears / 100)) + monthlyTopUp;
+                    for (int j = 0; j < monthsInYear; j++) {
+                        startSum += (startSum * (annualMargin / monthsInYear / 100)) + monthlyTopUp;
                         dividendsYearly = startSum / 100 * dividendYield;
                         dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
-                        startSum += dividendsYearly / monthInYears;
+                        startSum += dividendsYearly / monthsInYear;
                     }
                     System.out.println(
                             "Total sum : " + startSum + ", Dividend sum reinvested : " + dividendsYearly + " in " + year
@@ -82,56 +79,33 @@ public class CompoundInterestCalculator {
                 if (year == (CURRENT_YEAR + retirementStartAfterYears)) {
                     System.out.println("\n\n\n############## RETIREMENT #################\n\n\n");
                 }
-                // dividends reinvest
-                if (reinvestDividendsEnabledWhenRetire) {
-                    // CacheFlow from selling
-                    if (retirementCacheFlowFromSelling > 0) {
-                        startSum += startSum * annualMargin / 100;
-                        cacheFlowYearly = startSum / 100 * retirementCacheFlowFromSelling;
-                        startSum -= cacheFlowYearly;
-                        cacheFlowYearly -= cacheFlowYearly / 100 * STOCK_SELL_FEE;
-                        dividendsYearly = startSum / 100 * dividendYield;
-                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
-                        startSum += dividendsYearly;
-                        System.out.println(
-                                "Total sum : " + startSum + ", CacheFlow sum : " + cacheFlowYearly + " in " + year
-                                + " year"
-                                + ", Dividend sum reinvested : " + dividendsYearly + " in " + year + " year");
-                    }
-                    // no CacheFlow from selling
-                    else {
-                        startSum += startSum * annualMargin / 100;
-                        dividendsYearly = startSum / 100 * dividendYield;
-                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
-                        startSum += dividendsYearly;
-                        System.out.println(
-                                "Total sum : " + startSum + ", Dividend sum reinvested : " + dividendsYearly + " in "
-                                + year + " year");
-                    }
+                startSum += startSum * annualMargin / 100;
+                dividendsYearly = startSum / 100 * dividendYield;
+                dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
+
+                // no CacheFlow from selling, only Dividends
+                if (dividendsYearly > monthlyCacheFlowThreshold * monthsInYear) {
+                    double cacheFlowAboveThreshold = dividendsYearly - monthlyCacheFlowThreshold * monthsInYear;
+                    startSum += cacheFlowAboveThreshold;
+                    System.out.println(
+                            "Total sum : " + startSum + ", CacheFlow withdrawal: " + monthlyCacheFlowThreshold
+                            + ", Dividend yield sum : " + dividendsYearly
+                            + ", Dividends reinvested : " + cacheFlowAboveThreshold
+                            + " in " + year + " year");
                 }
-                // no dividends reinvest
+                // CacheFlow from selling + Dividends
                 else {
-                    // CacheFlow from selling
-                    if (retirementCacheFlowFromSelling > 0) {
-                        startSum += startSum * annualMargin / 100;
-                        cacheFlowYearly = startSum / 100 * retirementCacheFlowFromSelling;
-                        startSum -= cacheFlowYearly;
-                        cacheFlowYearly -= cacheFlowYearly / 100 * STOCK_SELL_FEE;
-                        dividendsYearly = startSum / 100 * dividendYield;
-                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
-                        System.out.println(
-                                "Total sum : " + startSum + ", CacheFlow sum : " + cacheFlowYearly + " in " + year
-                                + " year" + ", Dividend sum received : " + dividendsYearly + " in " + year + " year");
-                    }
-                    // no CacheFlow from selling
-                    else {
-                        startSum += startSum * annualMargin / 100;
-                        dividendsYearly = startSum / 100 * dividendYield;
-                        dividendsYearly -= dividendsYearly / 100 * DIVIDEND_FEE;
-                        System.out.println(
-                                "Total sum : " + startSum + ", Dividend sum received : " + dividendsYearly + " in "
-                                + year + " year");
-                    }
+                    cacheFlowYearly = monthlyCacheFlowThreshold * monthsInYear - dividendsYearly;
+                    double taxes = cacheFlowYearly / 100 * STOCK_SELL_FEE;
+                    cacheFlowYearly += taxes;
+                    startSum -= cacheFlowYearly;
+                    cacheFlowYearly -= taxes;
+                    System.out.println(
+                            "Total sum : " + startSum + ", CacheFlow withdrawal: " + monthlyCacheFlowThreshold
+                            + ", CacheFlow from selling sum: " + cacheFlowYearly
+                            + ", Dividend yield sum : " + dividendsYearly
+                            + " in " + year + " year");
+
                 }
             }
             expenseRatioAnnuallyFee = (startSum / 100) * expenseRatio;
@@ -223,14 +197,8 @@ public class CompoundInterestCalculator {
         return this;
     }
 
-    public CompoundInterestCalculator setReinvestDividendsEnabledWhenRetire(
-            boolean reinvestDividendsEnabledWhenRetire) {
-        this.reinvestDividendsEnabledWhenRetire = reinvestDividendsEnabledWhenRetire;
-        return this;
-    }
-
-    public CompoundInterestCalculator setRetirementCacheFlowFromSelling(double retirementCacheFlowFromSelling) {
-        this.retirementCacheFlowFromSelling = retirementCacheFlowFromSelling;
+    public CompoundInterestCalculator setMonthlyCacheFlowThreshold(double monthlyCacheFlowThreshold) {
+        this.monthlyCacheFlowThreshold = monthlyCacheFlowThreshold;
         return this;
     }
 }
