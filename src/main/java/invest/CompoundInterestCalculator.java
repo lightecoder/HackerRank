@@ -34,7 +34,7 @@ public class CompoundInterestCalculator {
                 .setYearsPeriod(50) // years
                 .setRetirementStartAfterYears(14) // years
                 .setDividendYield(0.83)// must != 0 , %
-                .setMonthlyCacheFlowThreshold(20000); // must != 0
+                .setMonthlyCacheFlowThreshold(30000); // must != 0
         calculator2.getRetirementCacheFlow();
     }
 
