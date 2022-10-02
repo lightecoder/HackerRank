@@ -28,12 +28,12 @@ public class CompoundInterestCalculator {
 
         CompoundInterestCalculator calculator2 = new CompoundInterestCalculator();
         calculator2.setStartSum(50000) // USD
-                .setAnnualMargin(17.08) // %
-                .setMonthlyTopUp(10000) // USD
-                .setExpenseRatio(0.1) // %
+                .setAnnualMargin(12.1) // %
+                .setMonthlyTopUp(5000) // USD
+                .setExpenseRatio(0.03) // %
                 .setYearsPeriod(50) // years
-                .setRetirementStartAfterYears(14) // years
-                .setDividendYield(0.83)// must != 0 , %
+                .setRetirementStartAfterYears(21) // years
+                .setDividendYield(1.4)// must != 0 , %
                 .setMonthlyCacheFlowThreshold(30000); // must != 0
         calculator2.getRetirementCacheFlow();
     }
