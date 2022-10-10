@@ -17,7 +17,7 @@ public class BiTreeInOrderTraversal {
 
     private static String s = "";
 
-    private static void printTree(Node root) {
+    public static void printTree(Node root) {
         if (root == null) {
             return;
         }
@@ -28,7 +28,7 @@ public class BiTreeInOrderTraversal {
         s = s.substring(0, s.length() - 3);
     }
 
-    private static void printInorder(Node root) {
+    public static void printInorder(Node root) {
         if (root == null) return;
         printInorder(root.left);
         System.out.println(root.data);
