@@ -10,8 +10,13 @@ public class BiTreeInOrderTraversal {
         root.insert(15);
         root.insert(12);
         root.insert(18);
-        printInorder(root);
         printTree(root);
+        System.out.println("#########-printInOrder-############");
+        printInOrder(root);
+        System.out.println("##########-printPreOrder-###########");
+        printPreOrder(root);
+        System.out.println("###########-printPostOrder-##########");
+        printPostOrder(root);
         System.out.println("contains - " + root.contains(19));
     }
 
@@ -28,11 +33,31 @@ public class BiTreeInOrderTraversal {
         s = s.substring(0, s.length() - 3);
     }
 
-    public static void printInorder(Node root) {
-        if (root == null) return;
-        printInorder(root.left);
+    public static void printInOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        printInOrder(root.left);
         System.out.println(root.data);
-        printInorder(root.right);
+        printInOrder(root.right);
+    }
+
+    public static void printPreOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        System.out.println(root.data);
+        printPreOrder(root.left);
+        printPreOrder(root.right);
+    }
+
+    public static void printPostOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        printPostOrder(root.left);
+        printPostOrder(root.right);
+        System.out.println(root.data);
     }
 }
 

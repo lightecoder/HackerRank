@@ -1,6 +1,6 @@
 package leetcode;
 
-import static leetcode.BiTreeInOrderTraversal.printInorder;
+import static leetcode.BiTreeInOrderTraversal.printInOrder;
 import static leetcode.BiTreeInOrderTraversal.printTree;
 
 public class CheckIfBinarySearchTree {
@@ -15,7 +15,7 @@ public class CheckIfBinarySearchTree {
         root.insert(17);
         root.insert(25);
         printTree(root);
-        printInorder(root);
+        printInOrder(root);
         System.out.println(isBinarySearchTree(root, -1));
 
     }

@@ -1,8 +1,5 @@
 package leetcode;
 
-import static leetcode.BiTreeInOrderTraversal.printInorder;
-import static leetcode.BiTreeInOrderTraversal.printTree;
-
 public class MinMaxValueInBinarySearchTree {
 
     public static void main(String[] args) {

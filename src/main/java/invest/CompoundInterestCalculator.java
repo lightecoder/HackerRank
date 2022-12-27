@@ -27,14 +27,14 @@ public class CompoundInterestCalculator {
         //        System.out.println("\n\n\n#########################################################################\n\n\n");
 
         CompoundInterestCalculator calculator2 = new CompoundInterestCalculator();
-        calculator2.setStartSum(50000) // USD
-                .setAnnualMargin(12.1) // %
-                .setMonthlyTopUp(5000) // USD
+        calculator2.setStartSum(60000) // USD
+                .setAnnualMargin(10) // %
+                .setMonthlyTopUp(10000) // USD
                 .setExpenseRatio(0.03) // %
                 .setYearsPeriod(50) // years
-                .setRetirementStartAfterYears(21) // years
-                .setDividendYield(1.4)// must != 0 , %
-                .setMonthlyCacheFlowThreshold(30000); // must != 0
+                .setRetirementStartAfterYears(14) // years
+                .setDividendYield(0.1)// must != 0 , %
+                .setMonthlyCacheFlowThreshold(20000); // must != 0
         calculator2.getRetirementCacheFlow();
     }
 
