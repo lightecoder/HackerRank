@@ -25,7 +25,7 @@ package ex;
 // lRUCache.get(3);    // return 3
 // lRUCache.get(4);    // return 4
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -55,7 +55,7 @@ public class LRUCache {
     Node tail;
 
     public LRUCache(int capacity) {
-        cache = new LinkedHashMap<>();
+        cache = new HashMap<>();
         this.capacity = capacity;
     }
 
