@@ -55,7 +55,7 @@ public class LRUCache {
     Node tail;
 
     public LRUCache(int capacity) {
-        cache = new LinkedHashMap<>(capacity);
+        cache = new LinkedHashMap<>();
         this.capacity = capacity;
     }
 
@@ -70,6 +70,7 @@ public class LRUCache {
                 head = head.next;
                 head.prev = null;
             }
+            cache.remove(key);
         }
         if (cache.size() == 0) {
             tail = node;
