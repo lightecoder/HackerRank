@@ -1,9 +1,12 @@
-<mxfile host="app.diagrams.net" modified="2023-03-21T19:38:25.088Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="rsUUEhpx2eHzdsjgFgXH" version="21.0.10" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-21T19:38:40.056Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="L9g4opjsiNxq1jWgOlnc" version="21.0.10" type="github">
   <diagram name="Page-1" id="n42-TYXNuf5aOxzHtGEO">
     <mxGraphModel dx="1026" dy="575" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="XhFj9yossaLwp9xGj5dB-34" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.kinesis_streams;fillColor=#F58534;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="390" y="190" width="60" height="63" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
