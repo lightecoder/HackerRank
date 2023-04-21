@@ -49,7 +49,7 @@ public class MyHttpServer extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //"src/main/resources/mus.mp3"
-        String path = getClass().getResource("mus.mp3").getPath();
+        String path = this.getClass().getResource("/mus.mp3").getPath();
         System.out.println(path);
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
