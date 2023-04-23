@@ -11,16 +11,21 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MyHttpServer extends Application {
     public static void main(String[] args) {
-        new MyHttpServer().call(args);
+        new MyHttpServer().call();
     }
 
-    private void call(String[] args) {
+    private void call() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         Runnable task = () -> {
             try {
@@ -37,17 +42,20 @@ public class MyHttpServer extends Application {
                 }
                 reader.close();
 
-                String date = "2023-06-21";
-                String status = response.substring(response.indexOf(date), (response.indexOf(date) + 21)).replaceAll("\"", "");
+                String date = "2023-06-22";
+                String status = response.substring(
+                        response.indexOf(date),
+                        response.indexOf("\"", response.indexOf(date) + 15)
+                ).replaceAll("\"", "");
                 System.out.println("Response : " + response);
-                System.out.println("Response code: " + responseCode + ", status = " + status + "\n");
+                System.out.println("Time: " + LocalDateTime.now().format(formatter) + ", Response code: " + responseCode + ", status = " + status);
 
-                if (!status.split(":")[1].equals("no-slots")) {
+                if (response.toString().contains("free")) {
                     for (int i = 0; i < 100; i++) {
-                        launch(args);
+                        launch();
                     }
                 } else {
-                    System.out.println("Still not available .. ");
+                    System.out.println("Still not available .. \n");
                 }
                 connection.disconnect();
             } catch (Exception e) {
@@ -55,7 +63,7 @@ public class MyHttpServer extends Application {
             }
         };
 
-        scheduler.scheduleAtFixedRate(task, 0, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
     }
 
     @Override
