@@ -25,7 +25,7 @@ public class MergeSort {
     private static void merge(int[] arr, int[] left, int[] right) {
         int leftPartPointer = 0;
         int rightPartPointer = 0;
-        for (int i = 0; i < (left.length + right.length); i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (leftPartPointer < left.length && rightPartPointer < right.length) {
                 if (left[leftPartPointer] < right[rightPartPointer]) {
                     arr[i] = left[leftPartPointer];
