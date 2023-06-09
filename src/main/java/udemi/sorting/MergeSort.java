@@ -28,18 +28,14 @@ public class MergeSort {
         for (int i = 0; i < arr.length; i++) {
             if (leftPartPointer < left.length && rightPartPointer < right.length) {
                 if (left[leftPartPointer] < right[rightPartPointer]) {
-                    arr[i] = left[leftPartPointer];
-                    leftPartPointer++;
+                    arr[i] = left[leftPartPointer++];
                 } else {
-                    arr[i] = right[rightPartPointer];
-                    rightPartPointer++;
+                    arr[i] = right[rightPartPointer++];
                 }
             } else if (rightPartPointer < right.length) {
-                arr[i] = right[rightPartPointer];
-                rightPartPointer++;
+                arr[i] = right[rightPartPointer++];
             } else if (leftPartPointer < left.length) {
-                arr[i] = left[leftPartPointer];
-                leftPartPointer++;
+                arr[i] = left[leftPartPointer++];
             }
         }
     }
