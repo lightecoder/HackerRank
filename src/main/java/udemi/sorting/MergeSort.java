@@ -9,6 +9,9 @@ public class MergeSort {
         System.out.println(Arrays.toString(arr));
     }
 
+    // merge sort = recursively divide array in 2, sort, re-combine
+    // run-time complexity = O(n Log n)
+    // space complexity    = O(n)
     private static void mergeSort(int[] arr) {
         if (arr.length == 1) return;
         int middle = arr.length / 2;
