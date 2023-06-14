@@ -4,7 +4,7 @@ public class CompoundInterestCalculator {
 
     private static final double DIVIDEND_FEE = 16.5; // 15% USA taxes + 1.5% Ukraine (military)
     private static final double STOCK_SELL_FEE = 19.5; // 18% PDFO  + 1.5% Ukraine (military)
-    private static final int CURRENT_YEAR = 2022;
+    private static final int CURRENT_YEAR = 2023;
     private static final double INFLATION = 1; //
 
     private double startSum;                                         // USD
