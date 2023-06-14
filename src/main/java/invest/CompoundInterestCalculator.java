@@ -8,13 +8,13 @@ public class CompoundInterestCalculator {
     private static final double INFLATION = 1; //
 
     private double startSum;                                         // USD
-    private double annualMargin;                                     // %
+    private double annualMargin;                                     // % yearly margin (grow)
     private double monthlyTopUp;                                     // USD
-    private int yearsPeriod;                                         // years
-    private double expenseRatio;                                     // %
-    private int retirementStartAfterYears;                           // years after we stop to top up the account
+    private int yearsPeriod;                                         // years calculation period in total
+    private double expenseRatio;                                     // % fee of the broker
+    private int retirementStartAfterYears;                           // years after we stop to top up the account and start receive cache
     private double dividendYield;                                    // % annually
-    private double monthlyCacheFlowThreshold;                        // USD, max cache flow monthly
+    private double monthlyCacheFlowThreshold;                        // USD, desired max cache flow monthly
 
     public static void main(String[] args) {
         //        CompoundInterestCalculator calculator = new CompoundInterestCalculator();
