@@ -20,8 +20,8 @@ public class QuickSort {
             }
             headPointer++;
         }
-        swap(arr, tailPointer, pivotPointer);
-        quickSort(arr, 0, 0, tailPointer-1);
-        quickSort(arr, tailPointer + 1, tailPointer + 1, pivotPointer);
+        swap(arr, tailPointer++, pivotPointer);
+        quickSort(arr, 0, 0, tailPointer - 2);
+        quickSort(arr, tailPointer, tailPointer, pivotPointer);
     }
 }
