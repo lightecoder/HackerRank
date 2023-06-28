@@ -1,1 +1,45 @@
-<mxfile host="app.diagrams.net" modified="2023-06-27T22:05:38.423Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" version="21.0.10" etag="nvOubxK2J7usl6MXpiz4" type="github"><diagram name="Page-1" id="IYa1ezcnPaEsrCZXAcXM">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2023-06-28T00:48:57.219Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="1hrssoY2BqD7Z0CNBVR7" version="21.0.10" type="github">
+  <diagram name="Page-1" id="IYa1ezcnPaEsrCZXAcXM">
+    <mxGraphModel dx="1434" dy="684" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.063;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Nz1Wtg8aLeYKFSIZzmMj-1" target="Nz1Wtg8aLeYKFSIZzmMj-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="390" y="99" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-1" value="NeoID&lt;br&gt;(account page)&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-5" value="Amazon SQS" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" vertex="1" parent="1">
+          <mxGeometry x="330" y="50" width="80" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Nz1Wtg8aLeYKFSIZzmMj-6" target="Nz1Wtg8aLeYKFSIZzmMj-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="100" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="690" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-6" value="Auth0" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Nz1Wtg8aLeYKFSIZzmMj-7" target="Nz1Wtg8aLeYKFSIZzmMj-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-7" value="Services with User data" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Nz1Wtg8aLeYKFSIZzmMj-10" value="Remove User data" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="70" width="160" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
