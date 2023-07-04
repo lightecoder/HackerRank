@@ -1,53 +1,85 @@
 package udemi.tree;
 
-import leetcode.Node;
-
-import static leetcode.BiTreeInOrderTraversal.printTree;
-
-public class LowestCommonAncestor {
-
-    public Node lowestCommonAncestor(Node root, Node p, Node q) {
-        // Base case: if the root is null or matches either p or q, return the root
-        if (root == null || root == p || root == q) {
-            return root;
-        }
-
-        // Recursively search for the LCA in the left and right subtrees
-        Node left = lowestCommonAncestor(root.left, p, q);
-        Node right = lowestCommonAncestor(root.right, p, q);
-
-        // If both left and right subtrees have a valid LCA, then the current node is the LCA
-        if (left != null && right != null) {
-            return root;
-        }
-
-        // If only one of the subtrees has a valid LCA, return that LCA
-        return (left != null) ? left : right;
-    }
-
+class Runner {
     public static void main(String[] args) {
-        // Create a binary tree
-        Node root = new Node(3);
-        Node node5 = new Node(5);
-        root.left = node5;
-        root.right = new Node(1);
-        Node node6 = new Node(6);
-        root.left.left = node6;//
-        root.left.right = new Node(2);
-        root.right.left = new Node(0);
-        root.right.right = new Node(8);
-        root.left.right.left = new Node(7);
-        Node node4 = new Node(4);
-        root.left.right.right = node4;//
+        Node root = new Node("a");
+        Node nodeB = new Node("b");
+        Node nodeC = new Node("c");
+        Node nodeD = new Node("d");
+        Node nodeE = new Node("e");
+        Node nodeF = new Node("f");
+        Node nodeG = new Node("g");
+        Node nodeH = new Node("h");
+        Node nodeI = new Node("i");
+        Node nodeJ = new Node("j");
 
-        printTree(root);
+        root.parent = null;
+        nodeB.parent = root;
+        nodeC.parent = root;
+        nodeD.parent = nodeB;
+        nodeE.parent = nodeB;
+        nodeF.parent = nodeC;
+        nodeG.parent = nodeC;
+        nodeH.parent = nodeD;
+        nodeI.parent = nodeE;
+        nodeJ.parent = nodeE;
 
         LowestCommonAncestor lca = new LowestCommonAncestor();
 
-        // Find the lowest common ancestor of nodes with values 5 and 1
-        Node result = lca.lowestCommonAncestor(root, node4, node6);
-        System.out.println("Lowest Common Ancestor: " + result.data); // Output: 3
+        // test case 1
+        Node lcaNode = lca.getLCA(nodeH, nodeI);
+        System.out.println("The LCA of node 'h' and 'i' is: " + lcaNode.value); // should print 'b'
+
+        // test case 2
+        lcaNode = lca.getLCA(nodeF, nodeG);
+        System.out.println("The LCA of node 'f' and 'g' is: " + lcaNode.value); // should print 'c'
+
+        // test case 3
+        lcaNode = lca.getLCA(nodeI, nodeJ);
+        System.out.println("The LCA of node 'i' and 'j' is: " + lcaNode.value); // should print 'e'
+    }
+}
+
+class Node {
+    String value;
+    Node parent;
+
+    public Node(String value) {
+        this.value = value;
+        this.parent = null;
+    }
+}
+
+class LowestCommonAncestor {
+
+    public Node getLCA(Node p, Node q) {
+        int depthP = getDepth(p);
+        int depthQ = getDepth(q);
+        //straight the levels for both Nodes on the same depth
+        while (depthP > depthQ) {
+            p = p.parent;
+            depthP--;
+        }
+
+        while (depthQ > depthP) {
+            q = q.parent;
+            depthQ--;
+        }
+        //now Nodes on the same depth level, go up and find commonn ancestor
+        while (p != q) {
+            p = p.parent;
+            q = q.parent;
+        }
+
+        return p;
     }
 
-
+    private int getDepth(Node node) {
+        int depth = 0;
+        while (node != null) {
+            node = node.parent;
+            depth++;
+        }
+        return depth;
+    }
 }
