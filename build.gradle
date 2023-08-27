@@ -22,7 +22,8 @@ repositories {
 
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.9.0'
-//    implementation fileTree(dir: '/Users/bodiaky/tools/javafx-sdk-17.0.7/lib', include: ['*.jar'])
+    implementation 'org.yaml:snakeyaml:2.0'
+    implementation 'javax.mail:javax.mail-api:1.6.2'
 }
 
 test {
