@@ -1,0 +1,7 @@
+app:
+  apiKey: apiKey
+  listenerPath: /Users/bodiaky/Downloads
+  senderEmail: 4456602@gmail.com
+  senderPassword: nm107307
+  smtpHost: smtp.gmail.com
+  smtpPort: 587
