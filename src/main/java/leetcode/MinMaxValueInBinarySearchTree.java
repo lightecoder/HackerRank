@@ -3,7 +3,7 @@ package leetcode;
 public class MinMaxValueInBinarySearchTree {
 
     public static void main(String[] args) {
-        Node root = new Node(15);
+        MyNode root = new MyNode(15);
         root.insert(10);
         root.insert(8);
         root.insert(12);
@@ -16,14 +16,14 @@ public class MinMaxValueInBinarySearchTree {
         System.out.println(findMaxValue(root));
     }
 
-    private static int findMinValue(Node root) {
+    private static int findMinValue(MyNode root) {
         if (root.left == null) {
             return root.data;
         }
         return findMinValue(root.left);
     }
 
-    private static int findMaxValue(Node root) {
+    private static int findMaxValue(MyNode root) {
         if (root.right == null) {
             return root.data;
         }
