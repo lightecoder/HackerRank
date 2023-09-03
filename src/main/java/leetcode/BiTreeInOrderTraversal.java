@@ -2,7 +2,7 @@ package leetcode;
 
 public class BiTreeInOrderTraversal {
     public static void main(String[] args) {
-        Node root = new Node(10);
+        MyNode root = new MyNode(10);
         root.insert(5);
         root.insert(2);
         root.insert(8);
@@ -22,7 +22,7 @@ public class BiTreeInOrderTraversal {
 
     private static String s = "";
 
-    public static void printTree(Node root) {
+    public static void printTree(MyNode root) {
         if (root == null) {
             return;
         }
@@ -33,7 +33,7 @@ public class BiTreeInOrderTraversal {
         s = s.substring(0, s.length() - 3);
     }
 
-    public static void printInOrder(Node root) {
+    public static void printInOrder(MyNode root) {
         if (root == null) {
             return;
         }
@@ -42,7 +42,7 @@ public class BiTreeInOrderTraversal {
         printInOrder(root.right);
     }
 
-    public static void printPreOrder(Node root) {
+    public static void printPreOrder(MyNode root) {
         if (root == null) {
             return;
         }
@@ -51,7 +51,7 @@ public class BiTreeInOrderTraversal {
         printPreOrder(root.right);
     }
 
-    public static void printPostOrder(Node root) {
+    public static void printPostOrder(MyNode root) {
         if (root == null) {
             return;
         }

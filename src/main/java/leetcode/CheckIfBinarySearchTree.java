@@ -6,7 +6,7 @@ import static leetcode.BiTreeInOrderTraversal.printTree;
 public class CheckIfBinarySearchTree {
 
     public static void main(String[] args) {
-        Node root = new Node(15);
+        MyNode root = new MyNode(15);
         root.insert(10);
         root.insert(8);
         root.insert(12);
@@ -20,7 +20,7 @@ public class CheckIfBinarySearchTree {
 
     }
 
-    private static boolean isBinarySearchTree(Node root, Integer prev) {
+    private static boolean isBinarySearchTree(MyNode root, Integer prev) {
         if (root == null) {
             return true;
         }

@@ -5,7 +5,7 @@ import static leetcode.BiTreeInOrderTraversal.printTree;
 public class BinaryTreeHeight {
 
     public static void main(String[] args) {
-        Node root = new Node(15);
+        MyNode root = new MyNode(15);
         root.insert(10);
         root.insert(8);
         root.insert(12);
@@ -24,7 +24,7 @@ public class BinaryTreeHeight {
         System.out.println(findTreeHeight(root));
     }
 
-    private static int findTreeHeight(Node root) {
+    private static int findTreeHeight(MyNode root) {
         if (root == null) {
             return -1;
         }
@@ -34,7 +34,7 @@ public class BinaryTreeHeight {
     static int count = 0;
     static int height = 0;
 
-    private static void findTreeHeightBadSolution(Node root) {
+    private static void findTreeHeightBadSolution(MyNode root) {
         if (root == null) {
             return;
         }

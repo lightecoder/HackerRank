@@ -1,10 +1,10 @@
 package leetcode;
 
-public class Node {
-    public Node left, right;
+public class MyNode {
+    public MyNode left, right;
     public int data;
 
-    public Node(int data) {
+    public MyNode(int data) {
         this.data = data;
     }
 
@@ -29,13 +29,13 @@ public class Node {
     public void insert(int val) {
         if (val < data) {
             if (left == null) {
-                left = new Node(val);
+                left = new MyNode(val);
             } else {
                 left.insert(val);
             }
         } else {
             if (right == null) {
-                right = new Node(val);
+                right = new MyNode(val);
             } else {
                 right.insert(val);
             }
