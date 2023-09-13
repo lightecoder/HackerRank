@@ -1,11 +1,13 @@
 package gpt.chat.app;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -52,36 +54,45 @@ public class ContinuousTextProcessingApp {
             String fileContent = new String(Files.readAllBytes(filePath));
 
             // Process content using GPT-3
-//            String generatedText = processWithGPT3(apiKey, fileContent);
             String generatedText = processGPT(apiKey, fileContent);
             System.out.println("GPT answer: " + generatedText);
 
             // Send email
-            sendEmail("4456602@gmail.com", "GPT Generated Text", generatedText);
+//            sendEmail("4456602@gmail.com", "GPT Generated Text", generatedText);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static String processWithGPT3(String apiKey, String inputText) {
+    private static String processGPT(String apiKey, String inputText) {
         try {
-            // Set up API URI
-            URI uri = new URI("https://api.openai.com/v1/engines/davinci/completions");
+            // Set up the API URL
+            URL url = new URL("https://api.openai.com/v1/chat/completions");
 
             // Create connection
-            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + apiKey);
             connection.setDoOutput(true);
 
             // Set request body
-            String requestBody = "{\"prompt\": \"" + inputText + "\", \"max_tokens\": 50}";
 
-            try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
-                byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-                wr.write(input, 0, input.length);
+            // Create the JSON request body
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("messages", new JSONArray()
+                    .put(new JSONObject()
+                            .put("role", "user")
+                            .put("content", inputText)
+                    )
+            );
+
+            // Set request body
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = requestBody.toString().getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
             }
 
             // Get response
@@ -95,40 +106,12 @@ public class ContinuousTextProcessingApp {
 
             // Parse response JSON and extract generated text
             return response.toString();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            return "Error processing with GPT-3: " + e.getMessage();
+            return "Error processing with GPT-3.5 Turbo: " + e.getMessage();
         }
     }
 
-    private static String processGPT(String apiKey, String inputText) throws IOException {
-        URL url = new URL("https://api.openai.com/v1/engines/davinci/completions?prompt=" +
-                inputText +
-                "&temperature=0.7&max_tokens=100&n=1");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", "Bearer "+ apiKey);
-        connection.setRequestProperty("Content-Type", "application/json");
-
-        String body = "{\"prompt\":\"What is the meaning of life?\",\"temperature\":0.7,\"max_tokens\":100,\"n\":1}";
-        connection.setDoOutput(true);
-        try (OutputStream os = connection.getOutputStream()) {
-            os.write(body.getBytes());
-        }
-
-        int responseCode = connection.getResponseCode();
-        String response = null;
-        if (responseCode == 200) {
-            InputStream is = connection.getInputStream();
-            byte[] bytes = new byte[is.available()];
-            is.read(bytes);
-            response = new String(bytes);
-            System.out.println(response);
-        } else {
-            System.out.println("Error: " + responseCode);
-        }
-        return response;
-    }
 
     private static void sendEmail(String recipient, String subject, String content) {
         // Load Gmail SMTP settings from properties.yaml

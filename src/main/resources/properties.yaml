@@ -1,5 +1,5 @@
 app:
-  apiKey: apiKey
+  apiKey: key
   listenerPath: /Users/bodiaky/Downloads
   senderEmail: 4456602@gmail.com
   senderPassword: nm107307
