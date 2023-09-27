@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.Properties;
 
-public class ContinuousTextProcessingApp {
+public class ScreenProcessingAppTesseract {
     private static final Properties properties;
 
     static {
