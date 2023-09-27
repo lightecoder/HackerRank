@@ -2,7 +2,13 @@ package gpt.chat.app;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.sourceforge.tess4j.TesseractException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.Base64;
 import java.util.Properties;
 
 public class ScreenProcessingApp {
@@ -31,6 +38,7 @@ public class ScreenProcessingApp {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         String gptApiKey = (String) properties.get("gptApiKey");
+        String imageParserKey = (String) properties.get("imageParserKey");
         String listenerPath = (String) properties.get("listenerPath");
 
         WatchService watchService = FileSystems.getDefault().newWatchService();
@@ -43,7 +51,7 @@ public class ScreenProcessingApp {
                 if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
                     Path fileName = (Path) event.context();
                     if (fileName.toString().endsWith(".png")) {
-                        processImageParserRequest(directory.resolve(fileName));
+                        processImageParserRequest(directory.resolve(fileName), imageParserKey);
                     }
                     if (fileName.toString().endsWith(".txt")) {
                         processGPTRequest(directory.resolve(fileName), gptApiKey);
@@ -54,7 +62,7 @@ public class ScreenProcessingApp {
         }
     }
 
-    private static void processImageParserRequest(Path imagePath) {
+    private static void processImageParserRequest(Path imagePath, String imageParserKey) {
         String localImagePath = imagePath.toAbsolutePath().toString();
         String outputFilePath = "/Users/bodiaky/Downloads/output.txt";
 
@@ -63,20 +71,67 @@ public class ScreenProcessingApp {
             File imageFile = new File(localImagePath);
 
             // Perform OCR to extract text from the image
-            String extractedText = extractTextFromImage(imageFile);
+            String extractedText = extractTextFromImage(imageFile, imageParserKey);
 
             // Save extracted text to a text file
             saveTextToFile(extractedText, outputFilePath);
 
             System.out.println("Text extracted and saved to " + outputFilePath);
-        } catch (IOException | TesseractException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String extractTextFromImage(File imageFile) throws TesseractException {
-        //TODO
-        return null;
+    private static String extractTextFromImage(File imageFile, String imageParserKey) throws IOException {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()){
+
+            // Set up the API URL
+            String apiUrl = "https://api.ocr.space/parse/image";
+
+            // Create an HTTP POST request
+            HttpPost httpPost = new HttpPost(apiUrl);
+            httpPost.setHeader("apiKey", imageParserKey);
+
+            // Specify the content type as "application/json"
+            httpPost.setHeader("Content-Type", "application/json");
+
+            // Create a JSON request body
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("base64Image", "data:image/png;base64,".concat(encodeImageToBase64(imageFile)));
+            requestBody.put("filetype", "PNG"); // Specify the file type as "PNG"
+
+            // Set the JSON request body
+            StringEntity entity = new StringEntity(requestBody.toString());
+            httpPost.setEntity(entity);
+
+            // Execute the request and retrieve the response
+            HttpResponse response = httpClient.execute(httpPost);
+
+            // Check if the response is successful
+            if (response.getStatusLine().getStatusCode() == 200) {
+                // Parse the JSON response
+                HttpEntity responseEntity = response.getEntity();
+                String jsonString = EntityUtils.toString(responseEntity);
+                JSONObject json = new JSONObject(jsonString);
+
+                // Extract the OCR result
+
+                return json.getJSONArray("ParsedResults")
+                        .getJSONObject(0)
+                        .getString("ParsedText");
+            } else {
+                throw new IOException("Failed to extract text from the image. Status code: " +
+                        response.getStatusLine().getStatusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private static String encodeImageToBase64(File imageFile) throws IOException {
+        byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
+        return Base64.getEncoder().encodeToString(imageBytes);
     }
 
     private static void saveTextToFile(String text, String filePath) throws IOException {
