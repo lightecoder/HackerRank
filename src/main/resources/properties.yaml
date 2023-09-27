@@ -1,5 +1,5 @@
 app:
-  apiKey: key
+  gptApiKey: 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
   listenerPath: /Users/bodiaky/Downloads
   senderEmail: 4456602@gmail.com
   senderPassword: nm107307
