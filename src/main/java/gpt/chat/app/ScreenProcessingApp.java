@@ -149,7 +149,7 @@ public class ScreenProcessingApp {
         String parsedText = null;
         if (matcher.find()) {
             parsedText = matcher.group(1); // Extract the content inside "ParsedText"
-            System.out.println("Parsed Text: " + processNewLines(parsedText));
+//            System.out.println("Parsed Text: " + processNewLines(parsedText));
         }
         return parsedText;
     }
