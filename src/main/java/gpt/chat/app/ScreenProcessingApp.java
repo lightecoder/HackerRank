@@ -83,8 +83,6 @@ public class ScreenProcessingApp {
 
             // Save extracted text to a text file
             saveTextToFile(extractedText, outputFilePath);
-
-            System.out.println("Text extracted and saved to " + outputFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,7 +147,6 @@ public class ScreenProcessingApp {
         String parsedText = null;
         if (matcher.find()) {
             parsedText = matcher.group(1); // Extract the content inside "ParsedText"
-//            System.out.println("Parsed Text: " + processNewLines(parsedText));
         }
         return parsedText;
     }
@@ -260,7 +257,8 @@ public class ScreenProcessingApp {
 
             // Process content using GPT-3
             String generatedText = processGPT(apiKey, fileContent);
-            System.out.println("GPT answer: " + generatedText);
+            System.out.println("\n ############################# \n");
+            System.out.println("GPT answer: \n" + generatedText);
 
             // Send email
 //            sendEmail("4456602@gmail.com", "GPT Generated Text", generatedText);
