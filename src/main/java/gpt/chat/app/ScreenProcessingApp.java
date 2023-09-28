@@ -60,7 +60,7 @@ public class ScreenProcessingApp {
                         processImageParserRequest(directory.resolve(fileName), imageParserKey);
                     }
                     if (fileName.toString().endsWith(".txt")) {
-//                        processGPTRequest(directory.resolve(fileName), gptApiKey);
+                        processGPTRequest(directory.resolve(fileName), gptApiKey);
                     }
                 }
             }
@@ -137,7 +137,7 @@ public class ScreenProcessingApp {
 
     private static String extractParsedText(String jsonData) {
         // Define the regex pattern
-        String regexPattern = "\"ParsedText\":\"(.*?)\"";
+        String regexPattern = "ParsedText\":\"(.*?)\",\"ErrorMessage\"";
 
         // Compile the pattern
         Pattern pattern = Pattern.compile(regexPattern);
@@ -241,8 +241,15 @@ public class ScreenProcessingApp {
     }
 
     private static void saveTextToFile(String text, String filePath) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(filePath)) {
-            fos.write(text.getBytes());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            if (text != null) {
+                // Split the text by newline characters and write each line separately
+                String[] lines = text.split("\\\\n");
+                for (String line : lines) {
+                    writer.write(line);
+                    writer.newLine(); // Add a newline character
+                }
+            }
         }
     }
 
