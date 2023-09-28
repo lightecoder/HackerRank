@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -17,11 +17,17 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScreenProcessingApp {
     private static final Properties properties;
@@ -54,7 +60,7 @@ public class ScreenProcessingApp {
                         processImageParserRequest(directory.resolve(fileName), imageParserKey);
                     }
                     if (fileName.toString().endsWith(".txt")) {
-                        processGPTRequest(directory.resolve(fileName), gptApiKey);
+//                        processGPTRequest(directory.resolve(fileName), gptApiKey);
                     }
                 }
             }
@@ -64,7 +70,9 @@ public class ScreenProcessingApp {
 
     private static void processImageParserRequest(Path imagePath, String imageParserKey) {
         String localImagePath = imagePath.toAbsolutePath().toString();
-        String outputFilePath = "/Users/bodiaky/Downloads/output.txt";
+        String outputFilePath = "/Users/bodiaky/Downloads/"
+                + UUID.randomUUID()
+                + "-output.txt";
 
         try {
             // Read the image from the local file
@@ -82,9 +90,108 @@ public class ScreenProcessingApp {
         }
     }
 
-    private static String extractTextFromImage(File imageFile, String imageParserKey) throws IOException {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()){
+    private static String extractTextFromImage(File imageFile, String apiKey) throws IOException {
+        try {
+            // Set up the API URL
+            String apiUrl = "https://api.ocr.space/parse/image";
 
+            URL obj = URI.create(apiUrl).toURL();
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // Add request header
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+            // Create JSON payload
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.put("apikey", apiKey);
+            postDataParams.put("isTable", "false");
+            postDataParams.put("OCREngine", 2);
+//            postDataParams.put("isOverlayRequired", "true"); // provide coordinates of words
+            postDataParams.put("base64Image", "data:image/png;base64,".concat(encodeImageToBase64(imageFile)));
+
+            // Send post request
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(getPostDataString(postDataParams));
+            wr.flush();
+            wr.close();
+
+            // Read response
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return extractParsedText(response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private static String extractParsedText(String jsonData) {
+        // Define the regex pattern
+        String regexPattern = "\"ParsedText\":\"(.*?)\"";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regexPattern);
+
+        // Create a Matcher and apply it to the input data
+        Matcher matcher = pattern.matcher(jsonData);
+
+        // Find the first match and extract the captured group
+        String parsedText = null;
+        if (matcher.find()) {
+            parsedText = matcher.group(1); // Extract the content inside "ParsedText"
+            System.out.println("Parsed Text: " + processNewLines(parsedText));
+        }
+        return parsedText;
+    }
+
+    private static String processNewLines(String parsedText) {
+        StringBuilder result = new StringBuilder();
+        char[] chars = parsedText.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            // Check for the "\" character
+            if (chars[i] == '\\' && i + 1 < chars.length && chars[i + 1] == 'n') {
+                // Found "\n", add a newline character
+                result.append('\n');
+                i++; // Skip the 'n' character
+            } else {
+                // Add other characters as-is
+                result.append(chars[i]);
+            }
+        }
+        return result.toString();
+    }
+
+    public static String getPostDataString(JSONObject params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        Iterator<String> itr = params.keys();
+        while (itr.hasNext()) {
+            String key = itr.next();
+            Object value = params.get(key);
+            if (first)
+                first = false;
+            else
+                result.append("&");
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+        }
+        return result.toString();
+    }
+
+    private static String extractTextFromImage1(File imageFile, String imageParserKey) throws IOException {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             // Set up the API URL
             String apiUrl = "https://api.ocr.space/parse/image";
 
@@ -95,13 +202,12 @@ public class ScreenProcessingApp {
             // Specify the content type as "application/json"
             httpPost.setHeader("Content-Type", "application/json");
 
-            // Create a JSON request body
-            JSONObject requestBody = new JSONObject();
-            requestBody.put("base64Image", "data:image/png;base64,".concat(encodeImageToBase64(imageFile)));
-            requestBody.put("filetype", "PNG"); // Specify the file type as "PNG"
+            MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+            entityBuilder.addTextBody("base64Image", "data:image/png;base64,".concat(encodeImageToBase64(imageFile)));
+            entityBuilder.addTextBody("filetype", "PNG");
 
-            // Set the JSON request body
-            StringEntity entity = new StringEntity(requestBody.toString());
+            // Set the entity with form data
+            HttpEntity entity = entityBuilder.build();
             httpPost.setEntity(entity);
 
             // Execute the request and retrieve the response
