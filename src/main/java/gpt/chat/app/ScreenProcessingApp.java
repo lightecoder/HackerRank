@@ -2,19 +2,9 @@ package gpt.chat.app;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -151,24 +141,6 @@ public class ScreenProcessingApp {
         return parsedText;
     }
 
-    private static String processNewLines(String parsedText) {
-        StringBuilder result = new StringBuilder();
-        char[] chars = parsedText.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            // Check for the "\" character
-            if (chars[i] == '\\' && i + 1 < chars.length && chars[i + 1] == 'n') {
-                // Found "\n", add a newline character
-                result.append('\n');
-                i++; // Skip the 'n' character
-            } else {
-                // Add other characters as-is
-                result.append(chars[i]);
-            }
-        }
-        return result.toString();
-    }
-
     public static String getPostDataString(JSONObject params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
@@ -185,51 +157,6 @@ public class ScreenProcessingApp {
             result.append(URLEncoder.encode(value.toString(), "UTF-8"));
         }
         return result.toString();
-    }
-
-    private static String extractTextFromImage1(File imageFile, String imageParserKey) throws IOException {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            // Set up the API URL
-            String apiUrl = "https://api.ocr.space/parse/image";
-
-            // Create an HTTP POST request
-            HttpPost httpPost = new HttpPost(apiUrl);
-            httpPost.setHeader("apiKey", imageParserKey);
-
-            // Specify the content type as "application/json"
-            httpPost.setHeader("Content-Type", "application/json");
-
-            MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-            entityBuilder.addTextBody("base64Image", "data:image/png;base64,".concat(encodeImageToBase64(imageFile)));
-            entityBuilder.addTextBody("filetype", "PNG");
-
-            // Set the entity with form data
-            HttpEntity entity = entityBuilder.build();
-            httpPost.setEntity(entity);
-
-            // Execute the request and retrieve the response
-            HttpResponse response = httpClient.execute(httpPost);
-
-            // Check if the response is successful
-            if (response.getStatusLine().getStatusCode() == 200) {
-                // Parse the JSON response
-                HttpEntity responseEntity = response.getEntity();
-                String jsonString = EntityUtils.toString(responseEntity);
-                JSONObject json = new JSONObject(jsonString);
-
-                // Extract the OCR result
-
-                return json.getJSONArray("ParsedResults")
-                        .getJSONObject(0)
-                        .getString("ParsedText");
-            } else {
-                throw new IOException("Failed to extract text from the image. Status code: " +
-                        response.getStatusLine().getStatusCode());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     private static String encodeImageToBase64(File imageFile) throws IOException {
@@ -255,7 +182,7 @@ public class ScreenProcessingApp {
             // Read content from the text file
             String fileContent = new String(Files.readAllBytes(filePath));
 
-            // Process content using GPT-3
+            // Process content using GPT-4
             String generatedText = processGPT(apiKey, fileContent);
             System.out.println("\n ############################# \n");
             System.out.println("GPT answer: \n" + generatedText);
@@ -284,7 +211,7 @@ public class ScreenProcessingApp {
 
             // Create the JSON request body
             JSONObject requestBody = new JSONObject();
-            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("model", "gpt-4");
             requestBody.put("messages", new JSONArray()
                     .put(new JSONObject()
                             .put("role", "user")
@@ -318,48 +245,7 @@ public class ScreenProcessingApp {
             return jsonNode.at("/choices/0/message/content").asText();
         } catch (IOException e) {
             e.printStackTrace();
-            return "Error processing with GPT-3.5 Turbo: " + e.getMessage();
-        }
-    }
-
-
-    private static void sendEmail(String recipient, String subject, String content) {
-        // Load Gmail SMTP settings from properties.yaml
-
-        String smtpHost = (String) properties.get("smtpHost");
-        String smtpPort = (String) properties.get("smtpPort");
-        String senderEmail = (String) properties.get("senderEmail");
-        String senderPassword = (String) properties.get("senderPassword");
-
-        // Set up email properties
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.port", smtpPort);
-
-        // Create a Session object
-        Session session = Session.getInstance(props, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, senderPassword);
-            }
-        });
-
-        try {
-            // Create a MimeMessage object
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-            message.setSubject(subject);
-            message.setText(content);
-
-            // Send the message
-            Transport.send(message);
-
-            System.out.println("Email sent successfully.");
-        } catch (MessagingException e) {
-            e.printStackTrace();
+            return "Error processing with GPT-4: " + e.getMessage();
         }
     }
 }
