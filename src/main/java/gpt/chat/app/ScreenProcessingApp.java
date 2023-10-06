@@ -91,7 +91,8 @@ public class ScreenProcessingApp {
             String extractedText = extractTextFromImage(imageFile, imageParserKey);
 
             // Save extracted text to a text file
-            saveTextToFile(extractedText, outputFilePath);
+            if (extractedText != null) saveTextToFile(extractedText, outputFilePath);
+            else System.out.printf("Image extractedText is null!");
         } catch (IOException e) {
             e.printStackTrace();
         }
