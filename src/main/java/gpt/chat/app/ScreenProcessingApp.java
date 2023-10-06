@@ -19,7 +19,17 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static gpt.chat.app.KeytoolExecutor.*;
+import static gpt.chat.app.OpenSSLHelper.downloadCertificate;
+
 public class ScreenProcessingApp {
+    private static final String GPT_URL = "https://api.openai.com/v1/chat/completions";
+    private static final String IMAGE_PARSER_URL = "https://api.ocr.space/parse/image";
+    private static final String IMAGE_PARSER_ALIAS = "imageParser-alias";
+    private static final String GPT_ALIAS = "gpt-alias";
+    private static final String GPT_CERT_NAME = "sni.cloudflaressl.com.cer";
+    public static final String IMAGE_PARSER_CERT_NAME = "api.ocr.space.cer";
+    public static final String OUTPUT_CERTIFICATE_DIRECTORY = "src/main/resources/files-buffer/certificates/";
     private static final Properties properties;
 
     static {
@@ -29,6 +39,15 @@ public class ScreenProcessingApp {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        loadCertificates();
+    }
+
+    private static void loadCertificates() {
+        downloadCertificate(GPT_URL, GPT_CERT_NAME);
+        saveCertificate(GPT_CERT_NAME, GPT_ALIAS);
+        downloadCertificate(IMAGE_PARSER_URL, IMAGE_PARSER_CERT_NAME);
+        saveCertificate(IMAGE_PARSER_CERT_NAME, IMAGE_PARSER_ALIAS);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -80,10 +99,7 @@ public class ScreenProcessingApp {
 
     private static String extractTextFromImage(File imageFile, String apiKey) throws IOException {
         try {
-            // Set up the API URL
-            String apiUrl = "https://api.ocr.space/parse/image";
-
-            URL obj = URI.create(apiUrl).toURL();
+            URL obj = URI.create(IMAGE_PARSER_URL).toURL();
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             // Add request header
@@ -177,28 +193,59 @@ public class ScreenProcessingApp {
         }
     }
 
+    private static final JSONArray CONVERSATION_HISTORY = new JSONArray();
+
     private static void processGPTRequest(Path filePath, String apiKey) {
         try {
             // Read content from the text file
             String fileContent = new String(Files.readAllBytes(filePath));
+            CONVERSATION_HISTORY.put(new JSONObject().put("role", "user").put("content", fileContent));
 
             // Process content using GPT-4
             String generatedText = processGPT(apiKey, fileContent);
+
+            CONVERSATION_HISTORY.put(new JSONObject().put("role", "assistant").put("content", generatedText));
+
+            generatedText = formatResultString(generatedText, 100);
             System.out.println("\n ############################# \n");
             System.out.println("GPT answer: \n" + generatedText);
-
-            // Send email
-//            sendEmail("4456602@gmail.com", "GPT Generated Text", generatedText);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private static String formatResultString(String text, int maxLineLength) {
+        StringBuilder formatted = new StringBuilder();
+
+        String[] lines = text.split("\n");
+        for (String line : lines) {
+            if (line.length() <= maxLineLength) {
+                formatted.append(line).append('\n');
+                continue;
+            }
+
+            String[] words = line.split(" ");
+            StringBuilder currentLine = new StringBuilder();
+            for (String word : words) {
+                if (currentLine.length() + word.length() > maxLineLength) {
+                    formatted.append(currentLine.toString().trim()).append('\n');
+                    currentLine.setLength(0);
+                }
+                currentLine.append(word).append(' ');
+            }
+            if (!currentLine.isEmpty()) {
+                formatted.append(currentLine.toString().trim()).append('\n');
+            }
+        }
+
+        return formatted.toString();
+    }
+
     private static String processGPT(String apiKey, String inputText) {
         try {
             // Set up the API URL
-            URL url = new URL("https://api.openai.com/v1/chat/completions");
+            URL url = new URL(GPT_URL);
 
             // Create connection
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -207,17 +254,10 @@ public class ScreenProcessingApp {
             connection.setRequestProperty("Authorization", "Bearer " + apiKey);
             connection.setDoOutput(true);
 
-            // Set request body
-
-            // Create the JSON request body
+            // Use the conversationHistory for the messages in the request body
             JSONObject requestBody = new JSONObject();
             requestBody.put("model", "gpt-4");
-            requestBody.put("messages", new JSONArray()
-                    .put(new JSONObject()
-                            .put("role", "user")
-                            .put("content", inputText)
-                    )
-            );
+            requestBody.put("messages", CONVERSATION_HISTORY);
 
             // Set request body
             try (OutputStream os = connection.getOutputStream()) {
@@ -241,7 +281,6 @@ public class ScreenProcessingApp {
             JsonNode jsonNode = objectMapper.readTree(response.toString());
 
             // Extract the "content" field
-
             return jsonNode.at("/choices/0/message/content").asText();
         } catch (IOException e) {
             e.printStackTrace();
