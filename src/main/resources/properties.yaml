@@ -1,6 +1,6 @@
 app:
-  gptApiKey: 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
-  imageParserKey: K83462842888957
+  gptApiKey: key
+  imageParserKey: key
   listenerPath: /Users/bodiaky/Downloads
   senderEmail: 4456602@gmail.com
   senderPassword: hgdhgjkg
