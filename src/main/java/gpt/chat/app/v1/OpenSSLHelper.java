@@ -1,9 +1,9 @@
-package gpt.chat.app;
+package gpt.chat.app.v1;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static gpt.chat.app.ScreenProcessingApp.OUTPUT_CERTIFICATE_DIRECTORY;
+import static gpt.chat.app.v1.ScreenProcessingApp.OUTPUT_CERTIFICATE_DIRECTORY;
 
 public class OpenSSLHelper {
 

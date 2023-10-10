@@ -1,4 +1,4 @@
-package gpt.chat.app;
+package gpt.chat.app.v1;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
-import static gpt.chat.app.ScreenProcessingApp.OUTPUT_CERTIFICATE_DIRECTORY;
+import static gpt.chat.app.v1.ScreenProcessingApp.OUTPUT_CERTIFICATE_DIRECTORY;
 
 public class KeytoolExecutor {
     public static final String CACERT_DIR = "/Users/bodiaky/Library/Java/JavaVirtualMachines/openjdk-20.0.1/Contents/Home/lib/security/cacerts";

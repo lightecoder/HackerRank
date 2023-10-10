@@ -1,4 +1,4 @@
-package gpt.chat.app;
+package gpt.chat.app.v1;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,8 +19,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static gpt.chat.app.KeytoolExecutor.*;
-import static gpt.chat.app.OpenSSLHelper.downloadCertificate;
+import static gpt.chat.app.v1.KeytoolExecutor.*;
+import static gpt.chat.app.v1.OpenSSLHelper.downloadCertificate;
 
 public class ScreenProcessingApp {
     private static final String GPT_URL = "https://api.openai.com/v1/chat/completions";
