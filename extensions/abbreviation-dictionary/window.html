@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abbreviation Dictionary</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    width: 100%; /* Adjusted to 100% to make it half of the screen size */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #e0e0e0; /* Light grey color for borders */
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+th:nth-child(1), td:nth-child(1) { /* Key column */
+    width: auto;
+}
+
+th:nth-child(2), td:nth-child(2) { /* Value column */
+    width: auto;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Link column */
+    width: 1%; /* Setting it to 1% to make it as small as possible, but it will expand if the content is larger */
+    white-space: nowrap; /* Ensures content doesn't wrap to next line */
+}
+
+th:nth-child(4), td:nth-child(4) { /* Action column */
+    width: 1%; /* Same as Link column */
+    white-space: nowrap;
+}
+
+    </style>
+</head>
+<body>
+<!-- Entry addition segment -->
+<div>
+    <input type="text" id="keyInput" placeholder="Key">
+    <input type="text" id="valueInput" placeholder="Value">
+    <input type="text" id="linkInput" placeholder="Link (optional)">
+    <button id="addBtn">Add</button>
+</div>
+<hr>
+<input type="text" id="searchInput" placeholder="Search key...">
+<table>
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Link</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="window.js"></script>
+</body>
+</html>
