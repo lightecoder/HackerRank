@@ -41,7 +41,7 @@ tr:hover td {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 20px; /* Some padding around the controls */
+    padding: 5px; /* Some padding around the controls */
     background-color: #f8f9fa; /* Soft background color */
 }
 
