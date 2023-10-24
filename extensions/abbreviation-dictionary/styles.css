@@ -1,0 +1,69 @@
+.settings-icon {
+    font-size: 25px; /* Adjust as needed */
+    background: none; /* To remove any default button background */
+    border: none; /* To remove the default border */
+    cursor: pointer; /* To indicate it's clickable */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    width: 100%; /* Adjusted to 100% to make it half of the screen size */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #e0e0e0; /* Light grey color for borders */
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+th:nth-child(1), td:nth-child(1) {
+    /* Key column */
+    width: auto;
+}
+
+th:nth-child(2), td:nth-child(2) {
+    /* Value column */
+    width: auto;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    /* Link column */
+    width: 1%;
+    white-space: nowrap;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    /* Action column */
+    width: 1%;
+    white-space: nowrap;
+}
+
+.controls {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center align items */
+    gap: 10px; /* Provide some spacing between the elements */
+}
+
+.upload-label {
+    display: inline-block;
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.upload-label:hover {
+    background-color: #45a049;
+}

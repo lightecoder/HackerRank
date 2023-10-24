@@ -19,6 +19,7 @@
     "128": "icon.png"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "downloads"
   ]
 }
