@@ -51,7 +51,7 @@ function renderTable(searchText = '') {
     const filteredAbbreviations = abbreviations.filter(item => item.key.toLowerCase().includes(searchText));
 
     for (const item of filteredAbbreviations) {
-        const linkWord = item.link.trim() ? `Link` : '';
+        const linkWord = item.link.trim() ? `<a href="${item.link}" target="_blank">Link</a>` : '';
         const row = `
                 <tr>
                     <td><span class="key-text">${item.key}</span><input type="text" value="${item.key}" class="editable-input key-input" hidden></td>
