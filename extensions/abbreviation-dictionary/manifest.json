@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Abbreviation Dictionary",
+  "name": "Bookmarks Abbreviation Dictionary",
   "version": "1.0",
   "description": "Store abbreviations and their meanings.",
   "background": {
