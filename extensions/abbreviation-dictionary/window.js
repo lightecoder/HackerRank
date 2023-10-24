@@ -143,7 +143,7 @@ document.getElementById('exportBackupBtn').addEventListener('click', function() 
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'extension_backup.json'; // Default backup filename
+        a.download = 'extension_backup.json';
         a.click();
         URL.revokeObjectURL(url);
     });
