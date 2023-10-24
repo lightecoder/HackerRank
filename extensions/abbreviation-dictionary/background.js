@@ -1,21 +1,21 @@
-let windowId;
-
 chrome.action.onClicked.addListener(function() {
-    // If windowId is set, try to get the window
-    if (windowId) {
-        chrome.windows.get(windowId, { populate: false }, function(win) {
-            // If window exists, focus on it
-            if (chrome.runtime.lastError) {
-                // Error means no such window, so create a new one
-                createWindow();
-            } else {
-                chrome.windows.update(windowId, { focused: true });
-            }
-        });
-    } else {
-        // windowId is not set, so create a new window
-        createWindow();
-    }
+    // Try to get the window ID from storage
+    chrome.storage.local.get('windowId', function(data) {
+        if (data.windowId) {
+            // If windowId is stored, try to get the window
+            chrome.windows.get(data.windowId, { populate: false }, function(win) {
+                if (chrome.runtime.lastError) {
+                    // Error means no such window, so create a new one
+                    createWindow();
+                } else {
+                    chrome.windows.update(data.windowId, { focused: true });
+                }
+            });
+        } else {
+            // windowId is not stored, so create a new window
+            createWindow();
+        }
+    });
 });
 
 function createWindow() {
@@ -29,16 +29,16 @@ function createWindow() {
             type: 'panel',
             width: width,
             height: height,
-            focused: true  // Makes sure the window is focused when created
+            focused: true
         }, function(win) {
-            // Save the window ID
-            windowId = win.id;
+            // Save the window ID in storage
+            chrome.storage.local.set({ 'windowId': win.id });
 
-            // Clear windowId when the window is closed
+            // Clear windowId in storage when the window is closed
             chrome.windows.onRemoved.addListener(function closedWindow(id) {
-                if (id === windowId) {
+                if (id === win.id) {
                     chrome.windows.onRemoved.removeListener(closedWindow);
-                    windowId = null;
+                    chrome.storage.local.remove('windowId');
                 }
             });
         });
