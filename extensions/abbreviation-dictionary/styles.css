@@ -11,7 +11,8 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 0px; /* Add some spacing at the bottom */
+    margin-bottom: 0px;
+    border: 10px solid #f8f9fa;
 }
 
 th, td {
@@ -83,11 +84,11 @@ button:hover {
 }
 .action-column {
     width: 110px;
-    text-align: right;
+    text-align: left;
     white-space: nowrap;
 }
 .key-column {
-    width: 300px; /* Or whatever fixed width you prefer */
+    width: 250px; /* Or whatever fixed width you prefer */
 }
 
 .link-column {
