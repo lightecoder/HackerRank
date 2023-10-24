@@ -1,69 +1,90 @@
-.settings-icon {
-    font-size: 25px; /* Adjust as needed */
-    background: none; /* To remove any default button background */
-    border: none; /* To remove the default border */
-    cursor: pointer; /* To indicate it's clickable */
-}
-
 body {
-    font-family: Arial, sans-serif;
-    width: 100%; /* Adjusted to 100% to make it half of the screen size */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f8f9fa; /* Soft background color */
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px; /* Add some spacing at the bottom */
 }
 
 th, td {
-    border: 1px solid #e0e0e0; /* Light grey color for borders */
-    padding: 5px;
+    border: 1px solid #d6d6d6;
+    padding: 12px 8px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #333;
+    color: white; /* White text on black headers */
 }
 
-th:nth-child(1), td:nth-child(1) {
-    /* Key column */
-    width: auto;
+td {
+    background-color: white;
 }
 
-th:nth-child(2), td:nth-child(2) {
-    /* Value column */
-    width: auto;
+tr:hover td {
+    background-color: #e9e9e9; /* Highlight row on hover for better UX */
 }
-
-th:nth-child(3), td:nth-child(3) {
-    /* Link column */
-    width: 1%;
-    white-space: nowrap;
-}
-
-th:nth-child(4), td:nth-child(4) {
-    /* Action column */
-    width: 1%;
-    white-space: nowrap;
-}
-
 .controls {
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Vertically center align items */
-    gap: 10px; /* Provide some spacing between the elements */
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px; /* Some padding around the controls */
+    background-color: #f8f9fa; /* Soft background color */
+}
+
+button, .upload-label {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.settings-icon {
+    font-size: 25px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.settings-icon:hover {
+    color: #4CAF50; /* Green color on hover */
 }
 
 .upload-label {
-    display: inline-block;
-    padding: 8px 12px;
-    cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #333;
     color: white;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
 }
 
 .upload-label:hover {
-    background-color: #45a049;
+    background-color: #4CAF50;
 }
+input[type="text"], input[type="file"], label {
+    padding: 10px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="text"]:focus, input[type="file"]:focus, label:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25); /* Soft green glow on focus */
+}
+
