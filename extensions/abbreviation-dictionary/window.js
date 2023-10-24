@@ -84,11 +84,19 @@ function renderTable(searchText = '') {
 
    // Delete button functionality
    const deleteButtons = document.querySelectorAll('.deleteBtn');
-   deleteButtons.forEach((btn, index) => {
+   deleteButtons.forEach((btn) => {
        btn.addEventListener('click', function() {
+           const row = btn.closest('tr');
+           const keySpan = row.querySelector('.key-text');
            const confirmDelete = window.confirm("Are you sure you want to delete this abbreviation?");
+
            if (confirmDelete) {
-               abbreviations = abbreviations.filter((_, itemIndex) => itemIndex !== index);
+               // Find the index in the original abbreviations array
+               const index = abbreviations.findIndex(item => item.key === keySpan.textContent);
+               if (index > -1) {
+                   abbreviations.splice(index, 1);
+               }
+
                chrome.storage.local.set({ 'abbreviations': abbreviations }, function() {
                    renderTable(searchText);
                });
