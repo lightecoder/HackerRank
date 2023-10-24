@@ -126,3 +126,17 @@ td input[type="text"] {
     padding: 4px; /* Add some padding inside the input */
     border: 1px solid #d6d6d6; /* Add a border to the input */
 }
+
+#clearDataBtn {
+    background-color: #f2867c; /* red color */
+    color: white;
+}
+#clearDataBtn:hover {
+    background-color: #e74c3c; /* darker red on hover */
+}
+.search-table th, .search-table td {
+    background-color: transparent;
+}
+.right-align {
+    text-align: right;
+}

@@ -203,3 +203,12 @@ document.getElementById('resetSearch').addEventListener('click', function() {
     searchInput.value = '';
     renderTable(searchInput.value); // Assuming this function updates your table based on the search input
 });
+
+document.getElementById('clearDataBtn').addEventListener('click', function() {
+    if (confirm('Are you sure you want to clear all data?')) {
+        abbreviations = [];
+        renderTable(); // Update the table view
+    }
+});
+
+
