@@ -86,6 +86,9 @@ button:hover {
     text-align: right;
     white-space: nowrap;
 }
+.key-column {
+    width: 300px; /* Or whatever fixed width you prefer */
+}
 
 .link-column {
     width: 50px; /* Or any width that suits your design */
