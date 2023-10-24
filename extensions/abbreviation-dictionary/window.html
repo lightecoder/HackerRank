@@ -6,39 +6,43 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-
 <body>
-<!-- Entry addition segment with settings icon -->
-<div>
-    <div class="controls">
-        <input type="text" id="keyInput" placeholder="Key">
-        <input type="text" id="valueInput" placeholder="Value">
-        <input type="text" id="linkInput" placeholder="Link (optional)">
-        <button id="addBtn">Add</button>
-        <button id="configBtn" title="Settings" class="settings-icon">&#9881;</button>
-        <div id="backupControls" style="display: none;">
-            <button id="exportBackupBtn"
-                    title="Click to download file with your data. For some emergency situation you need to save all your data into some file from time to time in order not lost it. If your browser or extension accidentally lost your data, you always could upload this Backup file with your data and restore it.">
-                Download Backup
-            </button>
-            <input type="file" id="importBackupInput" style="display: none;">
-            <label for="importBackupInput" class="upload-label" title='"Upload your Backup file.json to restore all data, or provide additional data to merge with existing data in format: [
-            {"key": "SomeKey1", "value": "SomeValue1", "link": "SomeLink1"},
-            {"key": "SomeKey2", "value": "SomeValue2", "link": "SomeLink2"},
-            // ... more entries ...
-            ]"'>Upload Backup and Merge</label>
-        </div>
-    </div>
+<!-- Entry addition segment -->
+<div class="controls">
+    <input type="text" id="keyInput" placeholder="Key">
+    <input type="text" id="valueInput" placeholder="Value">
+    <input type="text" id="linkInput" placeholder="Link (optional)">
+    <button id="addBtn">Add</button>
 </div>
+
+<!-- Search segment with settings icon and backup buttons -->
+<div class="search-controls">
+    <input type="text" id="searchInput" placeholder="Search key...">
+    <button id="exportBackupBtn"
+            title="Click to download file with your data. For some emergency situation you need to save all your data into some file from time to time in order not lost it. If your browser or extension accidentally lost your data, you always could upload this Backup file with your data and restore it.">
+        Download Backup
+    </button>
+    <input type="file" id="importBackupInput" style="display: none;">
+    <label for="importBackupInput" class="upload-label"
+           title='"Upload your Backup file.json to restore all data, or provide additional data to merge with existing data in format: [
+    {"key": "SomeKey1", "value": "SomeValue1", "link": "SomeLink1"},
+    {"key": "SomeKey2", "value": "SomeValue2", "link": "SomeLink2"},
+    // ... more entries ...
+    ]"'>
+        Upload Backup and Merge
+    </label>
+</div>
+
 <hr>
-<input type="text" id="searchInput" placeholder="Search key...">
-<table>
+
+<!-- Data table segment -->
+<table class="data-table">
     <thead>
     <tr>
-        <th>Key</th>
-        <th>Value</th>
-        <th>Link</th>
-        <th>Action</th>
+        <th class="key">Key</th>
+        <th class="value">Value</th>
+        <th class="link">Link</th>
+        <th class="action">Action</th>
     </tr>
     </thead>
     <tbody id="tableBody"></tbody>
