@@ -58,7 +58,7 @@ button, .upload-label {
 }
 
 button {
-    background-color: #80c883;
+    background-color: #80c883; /* Green */
     color: white;
 }
 
@@ -94,8 +94,21 @@ button:hover {
 .key-column {
     width: 250px; /* Or whatever fixed width you prefer */
 }
+
 #searchInput {
-    border: 10px solid #d6d6d6; /* 10px border, change color as needed */
+    border: 10px solid #d6d6d6;
+    width: 270px;
+    box-sizing: border-box;
+}
+.search-container {
+    display: flex;
+    justify-content: space-between; /* Positions the search input on the left and the button on the right */
+    color: #80c883
+}
+#resetSearch {
+    font-size: 10px;
+    color: #333;
+    padding: 0 5px;
 }
 
 .link-column {

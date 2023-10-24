@@ -197,3 +197,9 @@ function mergeDataWithTable(data) {
         renderTable();
     });
 }
+
+document.getElementById('resetSearch').addEventListener('click', function() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = '';
+    renderTable(searchInput.value); // Assuming this function updates your table based on the search input
+});
