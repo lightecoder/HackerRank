@@ -136,7 +136,12 @@ td input[type="text"] {
 }
 .search-table th, .search-table td {
     background-color: transparent;
+    border: none;
+}
+.search-table {
+    border: none;
+    margin: 0;
 }
 .right-align {
-    text-align: right;
+    text-align: center;
 }
