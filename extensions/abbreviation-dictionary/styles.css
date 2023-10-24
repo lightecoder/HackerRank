@@ -102,8 +102,9 @@ button:hover {
 }
 .search-container {
     display: flex;
-    justify-content: space-between; /* Positions the search input on the left and the button on the right */
-    color: #80c883
+    justify-content: flex-start; /* Align items to the start of the container */
+    gap: 10px; /* Add a gap between the search input and cancel button */
+    color: #80c883  /*Green*/
 }
 #resetSearch {
     font-size: 10px;
