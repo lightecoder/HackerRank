@@ -11,7 +11,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px; /* Add some spacing at the bottom */
+    margin-bottom: 0px; /* Add some spacing at the bottom */
 }
 
 th, td {
@@ -27,6 +27,9 @@ th {
 
 td {
     background-color: white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 150px; /* or any value that suits your design */
 }
 
 tr:hover td {
