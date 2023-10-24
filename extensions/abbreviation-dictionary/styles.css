@@ -1,7 +1,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
-    padding: 10px;
+    padding: 0;
     font-size: 12px;
     line-height: 1.5;
     color: #333;
@@ -12,40 +12,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px; /* Add some spacing at the bottom */
-}
-
-input[type="text"], input[type="file"], label {
-    padding: 5px;  /* Reducing the vertical padding */
-    border: 1px solid #d6d6d6;
-    border-radius: 4px;
-    width: 100%;
-    font-size: 12px;
-}
-
-.search-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* push content to the right side */
-    gap: 5px;
-    padding: 10px 0; /* Some padding around the controls */
-}
-
-#searchInput {
-    width: 30%;
-    margin: 0 10px 0 0; /* Adjust right margin */
-}
-
-table.data-table th.key, table.data-table td.key {
-    width: 33%;
-}
-table.data-table th.value, table.data-table td.value {
-    width: 50%;
-}
-table.data-table th.link, table.data-table td.link {
-    width: 5%;
-}
-table.data-table th.action, table.data-table td.action {
-    width: 12%;
 }
 
 th, td {
@@ -70,8 +36,8 @@ tr:hover td {
 .controls {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 10px; /* Some padding around the controls */
+    gap: 16px;
+    padding: 20px; /* Some padding around the controls */
     background-color: #f8f9fa; /* Soft background color */
 }
 
@@ -113,4 +79,14 @@ button:hover {
     background-color: #4CAF50;
 }
 
+input[type="text"], input[type="file"], label {
+    padding: 10px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    width: 100%;
+}
 
+input[type="text"]:focus, input[type="file"]:focus, label:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25); /* Soft green glow on focus */
+}
