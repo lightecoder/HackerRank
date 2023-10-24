@@ -78,3 +78,16 @@ button:hover {
 .upload-label:hover {
     background-color: #4CAF50;
 }
+.action-column {
+    width: 110px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.link-column {
+    width: 50px; /* Or any width that suits your design */
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
