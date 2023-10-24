@@ -90,6 +90,9 @@ button:hover {
 .key-column {
     width: 250px; /* Or whatever fixed width you prefer */
 }
+#searchInput {
+    border: 10px solid #d6d6d6; /* 10px border, change color as needed */
+}
 
 .link-column {
     width: 50px; /* Or any width that suits your design */
