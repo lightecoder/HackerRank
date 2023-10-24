@@ -51,18 +51,18 @@ function renderTable(searchText = '') {
     const filteredAbbreviations = abbreviations.filter(item => item.key.toLowerCase().includes(searchText));
 
     for (const item of filteredAbbreviations) {
-        let linkHTML = item.link.trim() ? `<a href="${item.link}" target="_blank">Link</a>` : '';
+        const linkWord = item.link.trim() ? `Link` : '';
         const row = `
-              <tr>
-                  <td><span class="key-text">${item.key}</span><input type="text" value="${item.key}" class="editable-input key-input" hidden></td>
-                  <td><span class="value-text">${item.value}</span><input type="text" value="${item.value}" class="editable-input value-input" hidden></td>
-                  <td><span class="link-text">${item.link}</span><input type="text" value="${item.link}" class="editable-input link-input" hidden>${linkHTML}</td>
-                  <td>
-                      <button class="editBtn">Edit</button>
-                      <button class="deleteBtn">Delete</button>
-                  </td>
-              </tr>`;
-        tableBody.innerHTML += row;
+                <tr>
+                    <td><span class="key-text">${item.key}</span><input type="text" value="${item.key}" class="editable-input key-input" hidden></td>
+                    <td><span class="value-text">${item.value}</span><input type="text" value="${item.value}" class="editable-input value-input" hidden></td>
+                    <td><span class="link-text">${linkWord}</span><input type="text" value="${item.link}" class="editable-input link-input" hidden></td>
+                    <td>
+                        <button class="editBtn">Edit</button>
+                        <button class="deleteBtn">Delete</button>
+                    </td>
+                </tr>`;
+        tableBody.insertAdjacentHTML('beforeend', row);
     }
 
     // Save button functionality
