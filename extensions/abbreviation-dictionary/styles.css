@@ -105,3 +105,10 @@ button:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+td input[type="text"] {
+    width: 100%; /* Make input take up the full width of the cell */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    padding: 4px; /* Add some padding inside the input */
+    border: 1px solid #d6d6d6; /* Add a border to the input */
+}
