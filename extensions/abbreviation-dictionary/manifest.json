@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Bookmarks Abbreviation Dictionary",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Store abbreviations and their meanings.",
   "background": {
     "service_worker": "background.js"
