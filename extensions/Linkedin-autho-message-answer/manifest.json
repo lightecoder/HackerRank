@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Answer",
+  "version": "1.0",
+  "permissions": ["alarms", "scripting", "storage"],
+  "host_permissions": ["https://www.linkedin.com/messaging/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/messaging/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
