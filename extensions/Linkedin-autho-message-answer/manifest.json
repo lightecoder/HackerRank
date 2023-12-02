@@ -2,14 +2,14 @@
   "manifest_version": 3,
   "name": "Auto Answer",
   "version": "1.0",
-  "permissions": ["alarms", "scripting", "storage"],
-  "host_permissions": ["https://www.linkedin.com/messaging/thread/*/"],
+  "permissions": ["alarms", "scripting", "storage", "tabs"],
+  "host_permissions": ["https://www.linkedin.com/messaging/thread/*"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://www.linkedin.com/messaging/thread/*/"],
+      "matches": ["https://www.linkedin.com/messaging/thread/*"],
       "js": ["content.js"]
     }
   ],
