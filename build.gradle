@@ -30,6 +30,8 @@ dependencies {
     implementation 'org.json:json:20230227'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.1'
+    implementation 'org.openjdk.jmh:jmh-core:1.33'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.33'
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.1.3'
 }
