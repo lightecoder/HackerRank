@@ -8,8 +8,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static neetcode.Sorting.bubbleSort;
-import static neetcode.Sorting.insertionSort;
+import static neetcode.Sorting.*;
 
 class Sorting {
     public static void main(String[] args) {
@@ -19,7 +18,8 @@ class Sorting {
             arr[i] = random.nextInt(10);
         }
 //        bubbleSort(arr);
-        insertionSort(arr);
+//        insertionSort(arr);
+        mergeSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -57,14 +57,32 @@ class Sorting {
 
     private static void mergeSortRecursion(int[] arr, int start, int end) {
         if (start == end) return;
-        int mid = start + (end - start) / 2;
+        int mid = (end + start) / 2;
         mergeSortRecursion(arr, start, mid);            // left
         mergeSortRecursion(arr, mid + 1, end);     // right
         merge(arr, start, mid, end);
     }
 
     private static void merge(int[] arr, int start, int mid, int end) {
-
+        int[] arrLeft = new int[mid - start + 1];
+        int[] arrRight = new int[end - mid];
+        System.arraycopy(arr, start, arrLeft, 0, arrLeft.length);
+        System.arraycopy(arr, mid + 1, arrRight, 0, arrRight.length);
+        int leftPointer = 0;
+        int rightPointer = 0;
+        for (int i = start; i <= end; i++) {
+            if (leftPointer >= arrLeft.length && rightPointer < arrRight.length) {
+                arr[i] = arrRight[rightPointer++];
+            } else if (leftPointer < arrLeft.length && rightPointer >= arrRight.length) {
+                arr[i] = arrLeft[leftPointer++];
+            } else {
+                if (arrLeft[leftPointer] < arrRight[rightPointer]) {
+                    arr[i] = arrLeft[leftPointer++];
+                } else {
+                    arr[i] = arrRight[rightPointer++];
+                }
+            }
+        }
     }
 
     private static void swap(int[] arr, int i, int j) {
@@ -91,7 +109,16 @@ public class SortingBenchmark {
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     @Warmup(iterations = 5)
-    @Measurement(iterations = 10)
+    @Measurement(iterations = 6)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public void mergeSortBenchmark() {
+        mergeSort(arr.clone());
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @Warmup(iterations = 5)
+    @Measurement(iterations = 6)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void insertionSortBenchmark() {
         insertionSort(arr.clone());
@@ -100,7 +127,7 @@ public class SortingBenchmark {
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     @Warmup(iterations = 5)
-    @Measurement(iterations = 10)
+    @Measurement(iterations = 6)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void bubbleSortBenchmark() {
         bubbleSort(arr.clone());
