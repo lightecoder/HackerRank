@@ -14,15 +14,16 @@ class Sorting {
     public static void main(String[] args) {
         Random random = new Random();
 //        int[] arr = new int[]{7, 1, 0, 3, 3};
-        int[] arr = new int[10];
+        int[] arr = new int[1000];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = random.nextInt(10);
+            arr[i] = random.nextInt(1000);
         }
 //        bubbleSort(arr);
 //        insertionSort(arr);
 //        mergeSort(arr);
+//        quickSort(arr);
         System.out.println(Arrays.toString(arr));
-        quickSort(arr);
+        bucketSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -51,6 +52,25 @@ class Sorting {
         System.out.println("Time Insertion = " + (timeFinish - timeStart) + " ms");
     }
 
+    public static void bucketSort(int[] arr) {
+        long timeStart = System.currentTimeMillis();
+        int[] buckets = new int[1000];
+        for (int i = 0; i < arr.length; i++) {
+            buckets[arr[i]] = buckets[arr[i]] + 1;
+        }
+        int i = 0;
+        int pointer = 0;
+        while (i < arr.length) {
+            while (buckets[pointer] > 0) {
+                arr[i++] = pointer;
+                buckets[pointer] = buckets[pointer] - 1;
+            }
+            pointer++;
+        }
+        long timeFinish = System.currentTimeMillis();
+        System.out.println("Time Bucket = " + (timeFinish - timeStart) + " ms");
+    }
+
     public static void mergeSort(int[] arr) {
         long timeStart = System.currentTimeMillis();
         mergeSortRecursion(arr, 0, arr.length - 1);
@@ -71,7 +91,7 @@ class Sorting {
         long timeStart = System.currentTimeMillis();
         quickSortRecursion(arr, 0, arr.length - 1);
         long timeFinish = System.currentTimeMillis();
-        System.out.println("Time Merge = " + (timeFinish - timeStart) + " ms");
+        System.out.println("Time Quick = " + (timeFinish - timeStart) + " ms");
     }
 
     private static void quickSortRecursion(int[] arr, int start, int pivot) {
@@ -165,6 +185,14 @@ public class SortingBenchmark {
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void quickSortBenchmark() {
         quickSort(arr.clone());
+    }
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public void bucketSortBenchmark() {
+        bucketSort(arr.clone());
     }
 
     public static void main(String[] args) throws Exception {
