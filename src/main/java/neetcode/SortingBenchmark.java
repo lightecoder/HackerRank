@@ -58,14 +58,10 @@ class Sorting {
         for (int i = 0; i < arr.length; i++) {
             buckets[arr[i]] = buckets[arr[i]] + 1;
         }
-        int i = 0;
-        int pointer = 0;
-        while (i < arr.length) {
-            while (buckets[pointer] > 0) {
-                arr[i++] = pointer;
-                buckets[pointer] = buckets[pointer] - 1;
+        for (int i = 0, k = 0; i < buckets.length; i++) {
+            for (int j = 0; j < buckets[i]; j++) {
+                arr[k++] = i;
             }
-            pointer++;
         }
         long timeFinish = System.currentTimeMillis();
         System.out.println("Time Bucket = " + (timeFinish - timeStart) + " ms");
@@ -186,6 +182,7 @@ public class SortingBenchmark {
     public void quickSortBenchmark() {
         quickSort(arr.clone());
     }
+
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     @Warmup(iterations = 3)
