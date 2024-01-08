@@ -13,13 +13,16 @@ import static neetcode.Sorting.*;
 class Sorting {
     public static void main(String[] args) {
         Random random = new Random();
+//        int[] arr = new int[]{7, 1, 0, 3, 3};
         int[] arr = new int[10];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = random.nextInt(10);
         }
 //        bubbleSort(arr);
 //        insertionSort(arr);
-        mergeSort(arr);
+//        mergeSort(arr);
+        System.out.println(Arrays.toString(arr));
+        quickSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -61,6 +64,27 @@ class Sorting {
         mergeSortRecursion(arr, start, mid);            // left
         mergeSortRecursion(arr, mid + 1, end);     // right
         merge(arr, start, mid, end);
+    }
+
+
+    public static void quickSort(int[] arr) {
+        long timeStart = System.currentTimeMillis();
+        quickSortRecursion(arr, 0, arr.length - 1);
+        long timeFinish = System.currentTimeMillis();
+        System.out.println("Time Merge = " + (timeFinish - timeStart) + " ms");
+    }
+
+    private static void quickSortRecursion(int[] arr, int start, int pivot) {
+        if (start >= pivot) return;
+        int i = start;
+        for (int j = start; j < pivot; j++) {
+            if (arr[j] <= arr[pivot]) {
+                swap(arr, i++, j);
+            }
+        }
+        swap(arr, i, pivot);
+        quickSortRecursion(arr, start, i - 1);
+        quickSortRecursion(arr, i, pivot);
     }
 
     private static void merge(int[] arr, int start, int mid, int end) {
@@ -108,8 +132,8 @@ public class SortingBenchmark {
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 6)
+    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void mergeSortBenchmark() {
         mergeSort(arr.clone());
@@ -117,8 +141,8 @@ public class SortingBenchmark {
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 6)
+    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void insertionSortBenchmark() {
         insertionSort(arr.clone());
@@ -126,11 +150,21 @@ public class SortingBenchmark {
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
-    @Warmup(iterations = 5)
-    @Measurement(iterations = 6)
+    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void bubbleSortBenchmark() {
         bubbleSort(arr.clone());
+    }
+
+
+    @Benchmark
+    @BenchmarkMode(Mode.SingleShotTime)
+    @Warmup(iterations = 3)
+    @Measurement(iterations = 5)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public void quickSortBenchmark() {
+        quickSort(arr.clone());
     }
 
     public static void main(String[] args) throws Exception {
