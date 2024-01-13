@@ -22,6 +22,18 @@ import java.util.regex.Pattern;
 import static gpt.chat.app.v1.KeytoolExecutor.*;
 import static gpt.chat.app.v1.OpenSSLHelper.downloadCertificate;
 
+/*
+gpt: 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
+imageParser: K83462842888957
+Cert URL: https://api.openai.com/v1/chat/completions , https://api.ocr.space/parse/image
+
+- keytool -delete -alias gpt-alias -keystore /Users/bodiaky/Library/Java/JavaVirtualMachines/openjdk-20.0.1/Contents/Home/lib/security/cacerts -noprompt
+- keytool -import -trustcacerts -file sni.cloudflaressl.com.cer -keystore /Users/bodiaky/Library/Java/JavaVirtualMachines/openjdk-20.0.1/Contents/Home/lib/security/cacerts -alias gpt-alias
+
+- keytool -delete -alias imageParser-alias -keystore /Users/bodiaky/Library/Java/JavaVirtualMachines/openjdk-20.0.1/Contents/Home/lib/security/cacerts -noprompt
+- keytool -import -trustcacerts -file api.ocr.space.cer -keystore /Users/bodiaky/Library/Java/JavaVirtualMachines/openjdk-20.0.1/Contents/Home/lib/security/cacerts -alias imageParser-alias
+
+ */
 public class ScreenProcessingApp {
     private static final String GPT_URL = "https://api.openai.com/v1/chat/completions";
     private static final String IMAGE_PARSER_URL = "https://api.ocr.space/parse/image";
