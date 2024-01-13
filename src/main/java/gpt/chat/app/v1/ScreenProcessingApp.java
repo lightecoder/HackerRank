@@ -23,7 +23,6 @@ import static gpt.chat.app.v1.KeytoolExecutor.*;
 import static gpt.chat.app.v1.OpenSSLHelper.downloadCertificate;
 
 /*
-gpt: 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
 imageParser: K83462842888957
 Cert URL: https://api.openai.com/v1/chat/completions , https://api.ocr.space/parse/image
 
